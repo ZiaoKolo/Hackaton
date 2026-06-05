@@ -1,27 +1,47 @@
-"""Data models for the content recommender."""
+"""Créer classes OOP :
+User, ContentItem,
+Recommender
+Définir catalogue contenu
+(livres, playlists, fitness)
 
-from dataclasses import dataclass, field
-from typing import List
+Exemples :
+{
+    "name": "John Doe",
+    "age": 28,
+    "interests": ["technology", "music"],
+    "activity_log": ["watched AI talk", "listened to rock music", "bought headphones"]
+}
+    """
+
+# Constantes du catalogue
+
+CATEGORIES = [
+    "Book",
+    "Playlist",
+    "Fitness"
+]
+
+TAGS = [
+    "technology",
+    "music",
+    "rock",
+    "ai",
+    "fitness",
+    "health"
+]
 
 
-@dataclass
-class UserProfile:
-    user_id: str
-    name: str = ""
-    age: int | None = None
-    preferences: List[str] = field(default_factory=list)
+class User:
+    def __init__(self, name, age, interests, activity_log):
+        self.name = name
+        self.age = age
+        self.interests = interests
+        self.activity_log = activity_log
 
 
-@dataclass
 class ContentItem:
-    content_id: str
-    title: str
-    category: str = ""
-    tags: List[str] = field(default_factory=list)
-
-
-@dataclass
-class Recommendation:
-    content_id: str
-    title: str
-    score: float
+    def __init__(self, content_id, title, category, tags):
+        self.content_id = content_id
+        self.title = title
+        self.category = category
+        self.tags = tags

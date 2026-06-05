@@ -1,26 +1,72 @@
-"""Simple content recommendation helpers."""
+from math import sqrt
+from models import TAGS
 
-from __future__ import annotations
+class Recommender:
 
-from collections.abc import Iterable
+    def __init__(self, catalog):
+        self.catalog = catalog
+        
+    def vectorize_user(self, user):
+        vector = []
 
-from .models import ContentItem, Recommendation, UserProfile
+        for tag in TAGS:
+            if tag in user.interests:
+                vector.append(1)
+            else:
+                vector.append(0)
 
+        return vector
 
-def score_content(user: UserProfile, item: ContentItem) -> float:
-    preference_set = {value.lower() for value in user.preferences}
-    tag_set = {value.lower() for value in item.tags}
-    score = 0.0
-    if item.category.lower() in preference_set:
-        score += 2.0
-    score += float(len(preference_set & tag_set))
-    return score
+    def vectorize_item(self, item):
+        vector = []
 
+        for tag in TAGS:
+            if tag in item.tags:
+                vector.append(1)
+            else:
+                vector.append(0)
 
-def recommend_content(user: UserProfile, catalog: Iterable[ContentItem], top_n: int = 5) -> list[Recommendation]:
-    ranked = [
-        Recommendation(content_id=item.content_id, title=item.title, score=score_content(user, item))
-        for item in catalog
-    ]
-    ranked.sort(key=lambda recommendation: recommendation.score, reverse=True)
-    return ranked[:top_n]
+        return vector
+   
+
+    def cosine_similarity(self, v1, v2):
+
+        # Produit scalaire
+        dot_product = 0
+        for i in range(len(v1)):
+            dot_product += v1[i] * v2[i]
+
+        # Norme du premier vecteur
+        sum_v1 = 0
+        for x in v1:
+            sum_v1 += x * x
+        norm_v1 = sqrt(sum_v1)
+
+        # Norme du deuxième vecteur
+        sum_v2 = 0
+        for x in v2:
+            sum_v2 += x * x
+        norm_v2 = sqrt(sum_v2)
+
+        # Éviter la division par zéro
+        if norm_v1 == 0 or norm_v2 == 0:
+            return 0
+
+        return dot_product / (norm_v1 * norm_v2)
+    
+    def generate(self, user):
+
+        user_vector = self.vectorize_user(user)
+
+        recommendations = []
+
+        for item in self.catalog:
+
+            item_vector = self.vectorize_item(item)
+
+            score = self.cosine_similarity(user_vector, item_vector)
+
+            if score > 0:
+                recommendations.append(item)
+
+        return recommendations

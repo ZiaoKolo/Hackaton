@@ -9,9 +9,10 @@ def main() -> None:
     users = generate_sample_users()
     catalog = [ContentItem(**item) for item in generate_sample_catalog()]
     user = UserProfile(**users[0])
-    recommendations = recommend_content(user, catalog)
+    recommendations = recommend_content(user, catalog, top_n=5)
+
     for recommendation in recommendations:
-        print(f"{recommendation.title}: {recommendation.score}")
+        print(f"{recommendation.title}: {recommendation.score:.2f}")
 
 
 if __name__ == "__main__":
