@@ -9,10 +9,8 @@ Original file is located at
 
 import pandas as pd
 
-data = pd.read_json("/content/users_raw.json")
+data = pd.read_json("/data/users_raw.json")
 data.head()
-
-"""#### Analyse Exploratoire des Données (EDA)"""
 
 print("Dataset Shape:", data.shape)
 print("\nNom des colonnes:")

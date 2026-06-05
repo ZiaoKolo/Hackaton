@@ -12,6 +12,7 @@ Original file is located at
 import numpy as np
 import random
 import pandas as pd
+import os
 
 # Définir les listes de prénoms et de noms
 prenoms = np.array(['Alice', 'Ali', 'Charlie', 'Diana', 'Eva', 'Frank'])
@@ -171,7 +172,6 @@ data = pd.DataFrame(list(zip(name, ages, interests, activity_log)), columns=["Na
 # Affichage du résultat
 data.head(10)
 
-# Exportation du DataFrame au format JSON
-data.to_json('users_raw.json', orient='records', indent=4)
-
-print("Le fichier 'users_raw.json' a été généré avec succès.")
+os.makedirs('data', exist_ok=True)
+data.to_json('data/users_raw.json', orient='records', indent=4)
+print("Fichier users_raw.json enregistré avec succès danss le dossier /data ")
