@@ -1,47 +1,39 @@
-"""Créer classes OOP :
-User, ContentItem,
-Recommender
-Définir catalogue contenu
-(livres, playlists, fitness)
+"""Models for the content recommender project.
 
-Exemples :
-{
-    "name": "John Doe",
-    "age": 28,
-    "interests": ["technology", "music"],
-    "activity_log": ["watched AI talk", "listened to rock music", "bought headphones"]
-}
-    """
+The unit tests expect:
+- UserProfile(user_id, name, age, interests, activity_log)
+- ContentItem(content_id, title, category, tags)
+"""
 
-# Constantes du catalogue
+from __future__ import annotations
 
-CATEGORIES = [
-    "Book",
-    "Playlist",
-    "Fitness"
-]
+from dataclasses import dataclass
+from typing import List, Optional
 
-TAGS = [
-    "technology",
-    "music",
-    "rock",
-    "ai",
-    "fitness",
-    "health"
-]
+CATEGORIES: List[str] = ["Book", "Playlist", "Fitness"]
+
+TAGS: List[str] = ["technology", "music", "rock", "ai", "fitness", "health"]
 
 
-class User:
-    def __init__(self, name, age, interests, activity_log):
-        self.name = name
-        self.age = age
-        self.interests = interests
-        self.activity_log = activity_log
+@dataclass
+class UserProfile:
+    user_id: str
+    name: str = ""
+    age: Optional[int] = None
+    interests: List[str] = None  # type: ignore[assignment]
+    activity_log: List[str] = None  # type: ignore[assignment]
+
+    def __post_init__(self) -> None:
+        if self.interests is None:
+            self.interests = []
+        if self.activity_log is None:
+            self.activity_log = []
 
 
+@dataclass
 class ContentItem:
-    def __init__(self, content_id, title, category, tags):
-        self.content_id = content_id
-        self.title = title
-        self.category = category
-        self.tags = tags
+    content_id: str
+    title: str
+    category: str
+    tags: List[str]
+

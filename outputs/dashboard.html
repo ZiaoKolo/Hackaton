@@ -7,33 +7,197 @@
     <style>
         :root {
             --bg: #0B1020;
+            --sidebar: #0D1424;
             --card: rgba(17, 24, 39, 0.94);
             --border: rgba(255,255,255,0.07);
             --text: #F8FAFC;
             --muted: #94A3B8;
             --primary: #7C6FF7;
             --success: #10B981;
+            --sidebar-w: 240px;
         }
+
+        *, *::before, *::after { box-sizing: border-box; }
 
         body {
             margin: 0;
             min-height: 100vh;
-            background: radial-gradient(circle at top right, rgba(124,111,247,0.16), transparent 32%),
-                        radial-gradient(circle at left bottom, rgba(6,182,212,0.12), transparent 26%),
-                        var(--bg);
+            background: var(--bg);
             color: var(--text);
             font-family: Inter, Arial, sans-serif;
+            display: flex;
+            overflow: hidden;
+            height: 100vh;
         }
 
-        .wrap { max-width: 1600px; margin: 0 auto; padding: 24px 24px 96px; }
-        .topbar { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(18px); border-bottom: 1px solid var(--border); background: rgba(11,16,32,0.7); }
-        .topbar-inner { max-width: 1600px; margin: 0 auto; height: 64px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-        .brand { display: flex; align-items: center; gap: 12px; font-weight: 600; letter-spacing: -0.03em; }
-        .brand-icon { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: rgba(124,111,247,0.12); color: var(--primary); }
+        /* ── SIDEBAR ── */
+        .sidebar {
+            width: var(--sidebar-w);
+            flex-shrink: 0;
+            background: var(--sidebar);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: fixed;
+            left: 0; top: 0;
+            z-index: 20;
+            padding: 0 0 24px;
+            transition: width 0.25s ease;
+        }
+
+        .sidebar-brand {
+            height: 64px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: -0.03em;
+            flex-shrink: 0;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            background: rgba(124,111,247,0.15);
+            color: var(--primary);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .nav { display: flex; flex-direction: column; gap: 4px; padding: 16px 12px; flex: 1; }
+
+        .nav-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            text-transform: uppercase;
+            padding: 8px 8px 4px;
+            margin-top: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+
+        .nav-item.active {
+            background: rgba(124,111,247,0.14);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-item .nav-icon {
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: rgba(124,111,247,0.18);
+            color: var(--primary);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 999px;
+        }
+
+        .sidebar-footer {
+            padding: 0 12px;
+            flex-shrink: 0;
+        }
+
+        /* ── MAIN AREA ── */
+        .main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .topbar {
+            height: 64px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(11,16,32,0.85);
+            backdrop-filter: blur(18px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            flex-shrink: 0;
+        }
+
+        .topbar-title {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
+
+        .button {
+            width: 36px; height: 36px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.04);
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 16px;
+            display: grid;
+            place-items: center;
+        }
+
+        /* ── SCROLLABLE CONTENT ── */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px;
+            background: radial-gradient(circle at top right, rgba(124,111,247,0.1), transparent 30%),
+                        radial-gradient(circle at left bottom, rgba(6,182,212,0.08), transparent 24%),
+                        var(--bg);
+        }
+
+        /* ── SECTIONS (tab panels) ── */
+        .section { display: none; animation: fadeIn 0.22s ease; }
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── GRIDS ── */
         .grid { display: grid; gap: 24px; }
         .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
         .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .spacer { height: 24px; }
 
         /* ── CARDS ── */
         .card {
@@ -42,25 +206,22 @@
             border-radius: 20px;
             padding: 24px;
             box-shadow: 0 18px 42px rgba(2,6,23,0.18);
-            /* Flex column so l'image peut pousser jusqu'au bord bas */
             display: flex;
             flex-direction: column;
         }
 
-        /* ── CHART WRAPPER : prend tout l'espace restant dans la card ── */
         .chart-wrapper {
             flex: 1;
             display: flex;
             align-items: stretch;
-            min-height: 0;        /* important pour que flex:1 fonctionne */
+            min-height: 0;
         }
 
-        /* ── IMAGE : pleine largeur ET pleine hauteur du wrapper ── */
         .chart-img {
             width: 100%;
             height: 100%;
-            min-height: 420px;    /* plancher absolu */
-            object-fit: fill;     /* étire pour vraiment remplir */
+            min-height: 420px;
+            object-fit: fill;
             display: block;
             border-radius: 8px;
         }
@@ -102,50 +263,79 @@
         .insight-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; flex: 1; }
         .insight-card { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); }
         .dot { width: 6px; height: 6px; margin-top: 7px; flex-shrink: 0; border-radius: 999px; background: var(--primary); }
-        .button { width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--muted); cursor: pointer; }
-        @media (max-width: 1100px) { .grid-4, .grid-3, .grid-2, .insight-grid { grid-template-columns: 1fr; } }
+
+        @media (max-width: 1100px) {
+            .grid-4, .grid-3, .grid-2, .insight-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="topbar">
-        <div class="topbar-inner">
-            <div class="brand"><div class="brand-icon">✦</div><div>CONTENTAI</div></div>
-            <button class="button" id="themeToggle">☾</button>
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">✦</div>
+            <span>CONTENTAI</span>
         </div>
-    </div>
-
-    <div class="wrap">
-        <!-- KPIs -->
-        <div class="grid grid-4">
-            <div class="card kpi"><div class="kpi-head"><div class="brand-icon">↗</div><span class="badge badge-up">+12%</span></div><div><div class="muted">Total Users</div><div class="mono" style="font-size: 32px; font-weight: 600;">50</div></div></div>
-            <div class="card kpi"><div class="kpi-head"><div class="brand-icon">▦</div><span class="badge badge-up">+4%</span></div><div><div class="muted">Recommendations</div><div class="mono" style="font-size: 32px; font-weight: 600;">247</div></div></div>
-            <div class="card kpi"><div class="kpi-head"><div class="brand-icon">★</div><span class="badge chip-trend">Leading</span></div><div><div class="muted">Top Category</div><div class="mono" style="font-size: 32px; font-weight: 600;">Fitness</div></div></div>
-            <div class="card kpi"><div class="kpi-head"><div class="brand-icon">◫</div><span class="badge badge-up">+0.8</span></div><div><div class="muted">Avg Activity Score</div><div class="mono" style="font-size: 32px; font-weight: 600;">4.2</div></div></div>
+        <nav class="nav">
+            <div class="nav-section-label">Main</div>
+            <button class="nav-item active" data-section="overview">
+                <span class="nav-icon">◈</span> Overview
+                <span class="nav-badge">4</span>
+            </button>
+            <button class="nav-item" data-section="users">
+                <span class="nav-icon">◫</span> Users
+            </button>
+            <button class="nav-item" data-section="charts">
+                <span class="nav-icon">◔</span> Charts
+            </button>
+            <div class="nav-section-label">Analysis</div>
+            <button class="nav-item" data-section="insights">
+                <span class="nav-icon">✦</span> AI Insights
+            </button>
+            <button class="nav-item" data-section="logs">
+                <span class="nav-icon">⌘</span> Logs &amp; Matrix
+            </button>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="nav-item" id="themeToggle">
+                <span class="nav-icon" id="themeIcon">☾</span> Theme
+            </button>
         </div>
+    </aside>
 
-        <div style="height: 24px"></div>
+    <!-- ── MAIN ── -->
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-title" id="pageTitle">Overview</div>
+            <div class="topbar-right">
+                <span class="muted" style="font-size:13px;">Target: <strong style="color:var(--primary)">Emma</strong></span>
+            </div>
+        </header>
 
-        <!-- Row 2 : Interest Distribution + Heatmap -->
-        <div class="grid grid-2">
-            <div class="card">
-                <div class="section-title"><div style="color: var(--muted);">◔</div><h2 style="margin: 0; font-size: 18px;">Interest Distribution</h2></div>
-                <div class="chart-wrapper">
-                    <img class="chart-img theme-chart" data-dark-src="categories-dark.png" data-light-src="categories-light.png" src="categories-dark.png" alt="Interest distribution" />
+        <div class="content">
+
+            <!-- SECTION : Overview (KPIs + Heatmap) -->
+            <div class="section active" id="section-overview">
+                <div class="grid grid-4">
+                    <div class="card kpi"><div class="kpi-head"><div class="brand-icon">↗</div><span class="badge badge-up">+12%</span></div><div><div class="muted">Total Users</div><div class="mono" style="font-size:32px;font-weight:600;">50</div></div></div>
+                    <div class="card kpi"><div class="kpi-head"><div class="brand-icon">▦</div><span class="badge badge-up">+4%</span></div><div><div class="muted">Recommendations</div><div class="mono" style="font-size:32px;font-weight:600;">247</div></div></div>
+                    <div class="card kpi"><div class="kpi-head"><div class="brand-icon">★</div><span class="badge chip-trend">Leading</span></div><div><div class="muted">Top Category</div><div class="mono" style="font-size:32px;font-weight:600;">Fitness</div></div></div>
+                    <div class="card kpi"><div class="kpi-head"><div class="brand-icon">◫</div><span class="badge badge-up">+0.8</span></div><div><div class="muted">Avg Activity Score</div><div class="mono" style="font-size:32px;font-weight:600;">4.2</div></div></div>
+                </div>
+                <div class="spacer"></div>
+                <div class="card">
+                    <div class="section-title"><div style="color:var(--muted);">◷</div><h2 style="margin:0;font-size:18px;">Activity Heatmap</h2><div style="margin-left:auto;color:var(--muted);font-size:12px;">Last 32 days</div></div>
+                    <div class="heatmap"><div class="heat-cell" title="Activity: 12%" style="background: rgba(6, 182, 212, 0.12);"></div><div class="heat-cell" title="Activity: 45%" style="background: rgba(6, 182, 212, 0.45);"></div><div class="heat-cell" title="Activity: 80%" style="background: rgba(6, 182, 212, 0.80);"></div><div class="heat-cell" title="Activity: 20%" style="background: rgba(6, 182, 212, 0.20);"></div><div class="heat-cell" title="Activity: 10%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 5%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 90%" style="background: rgba(6, 182, 212, 0.90);"></div><div class="heat-cell" title="Activity: 100%" style="background: rgba(6, 182, 212, 1.00);"></div><div class="heat-cell" title="Activity: 30%" style="background: rgba(6, 182, 212, 0.30);"></div><div class="heat-cell" title="Activity: 40%" style="background: rgba(6, 182, 212, 0.40);"></div><div class="heat-cell" title="Activity: 50%" style="background: rgba(6, 182, 212, 0.50);"></div><div class="heat-cell" title="Activity: 60%" style="background: rgba(6, 182, 212, 0.60);"></div><div class="heat-cell" title="Activity: 70%" style="background: rgba(6, 182, 212, 0.70);"></div><div class="heat-cell" title="Activity: 80%" style="background: rgba(6, 182, 212, 0.80);"></div><div class="heat-cell" title="Activity: 90%" style="background: rgba(6, 182, 212, 0.90);"></div><div class="heat-cell" title="Activity: 10%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 25%" style="background: rgba(6, 182, 212, 0.25);"></div><div class="heat-cell" title="Activity: 35%" style="background: rgba(6, 182, 212, 0.35);"></div><div class="heat-cell" title="Activity: 45%" style="background: rgba(6, 182, 212, 0.45);"></div><div class="heat-cell" title="Activity: 55%" style="background: rgba(6, 182, 212, 0.55);"></div><div class="heat-cell" title="Activity: 65%" style="background: rgba(6, 182, 212, 0.65);"></div><div class="heat-cell" title="Activity: 75%" style="background: rgba(6, 182, 212, 0.75);"></div><div class="heat-cell" title="Activity: 85%" style="background: rgba(6, 182, 212, 0.85);"></div><div class="heat-cell" title="Activity: 95%" style="background: rgba(6, 182, 212, 0.95);"></div><div class="heat-cell" title="Activity: 100%" style="background: rgba(6, 182, 212, 1.00);"></div><div class="heat-cell" title="Activity: 80%" style="background: rgba(6, 182, 212, 0.80);"></div><div class="heat-cell" title="Activity: 60%" style="background: rgba(6, 182, 212, 0.60);"></div><div class="heat-cell" title="Activity: 40%" style="background: rgba(6, 182, 212, 0.40);"></div><div class="heat-cell" title="Activity: 20%" style="background: rgba(6, 182, 212, 0.20);"></div><div class="heat-cell" title="Activity: 10%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 5%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 0%" style="background: rgba(6, 182, 212, 0.10);"></div></div>
                 </div>
             </div>
-            <div class="card">
-                <div class="section-title"><div style="color: var(--muted);">◷</div><h2 style="margin: 0; font-size: 18px;">Activity Heatmap</h2><div style="margin-left: auto; color: var(--muted); font-size: 12px;">Last 32 days</div></div>
-                <div class="heatmap"><div class="heat-cell" title="Activity: 12%" style="background: rgba(6, 182, 212, 0.12);"></div><div class="heat-cell" title="Activity: 45%" style="background: rgba(6, 182, 212, 0.45);"></div><div class="heat-cell" title="Activity: 80%" style="background: rgba(6, 182, 212, 0.80);"></div><div class="heat-cell" title="Activity: 20%" style="background: rgba(6, 182, 212, 0.20);"></div><div class="heat-cell" title="Activity: 10%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 5%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 90%" style="background: rgba(6, 182, 212, 0.90);"></div><div class="heat-cell" title="Activity: 100%" style="background: rgba(6, 182, 212, 1.00);"></div><div class="heat-cell" title="Activity: 30%" style="background: rgba(6, 182, 212, 0.30);"></div><div class="heat-cell" title="Activity: 40%" style="background: rgba(6, 182, 212, 0.40);"></div><div class="heat-cell" title="Activity: 50%" style="background: rgba(6, 182, 212, 0.50);"></div><div class="heat-cell" title="Activity: 60%" style="background: rgba(6, 182, 212, 0.60);"></div><div class="heat-cell" title="Activity: 70%" style="background: rgba(6, 182, 212, 0.70);"></div><div class="heat-cell" title="Activity: 80%" style="background: rgba(6, 182, 212, 0.80);"></div><div class="heat-cell" title="Activity: 90%" style="background: rgba(6, 182, 212, 0.90);"></div><div class="heat-cell" title="Activity: 10%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 25%" style="background: rgba(6, 182, 212, 0.25);"></div><div class="heat-cell" title="Activity: 35%" style="background: rgba(6, 182, 212, 0.35);"></div><div class="heat-cell" title="Activity: 45%" style="background: rgba(6, 182, 212, 0.45);"></div><div class="heat-cell" title="Activity: 55%" style="background: rgba(6, 182, 212, 0.55);"></div><div class="heat-cell" title="Activity: 65%" style="background: rgba(6, 182, 212, 0.65);"></div><div class="heat-cell" title="Activity: 75%" style="background: rgba(6, 182, 212, 0.75);"></div><div class="heat-cell" title="Activity: 85%" style="background: rgba(6, 182, 212, 0.85);"></div><div class="heat-cell" title="Activity: 95%" style="background: rgba(6, 182, 212, 0.95);"></div><div class="heat-cell" title="Activity: 100%" style="background: rgba(6, 182, 212, 1.00);"></div><div class="heat-cell" title="Activity: 80%" style="background: rgba(6, 182, 212, 0.80);"></div><div class="heat-cell" title="Activity: 60%" style="background: rgba(6, 182, 212, 0.60);"></div><div class="heat-cell" title="Activity: 40%" style="background: rgba(6, 182, 212, 0.40);"></div><div class="heat-cell" title="Activity: 20%" style="background: rgba(6, 182, 212, 0.20);"></div><div class="heat-cell" title="Activity: 10%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 5%" style="background: rgba(6, 182, 212, 0.10);"></div><div class="heat-cell" title="Activity: 0%" style="background: rgba(6, 182, 212, 0.10);"></div></div>
-            </div>
-        </div>
 
-        <div style="height: 24px"></div>
-
-        <!-- Row 3 : Users table + Recommendations -->
-        <div class="grid grid-2">
-            <div class="card">
-                <div class="section-title"><div style="color: var(--muted);">◫</div><h2 style="margin: 0; font-size: 18px;">Premium Users</h2></div>
-                <table><thead><tr><th>Name</th><th>Age</th><th>Interests</th><th>Score</th><th style="text-align:right;">Action</th></tr></thead><tbody>
+            <!-- SECTION : Users -->
+            <div class="section" id="section-users">
+                <div class="grid grid-2">
+                    <div class="card">
+                        <div class="section-title"><div style="color:var(--muted);">◫</div><h2 style="margin:0;font-size:18px;">Premium Users</h2></div>
+                        <table><thead><tr><th>Name</th><th>Age</th><th>Interests</th><th>Score</th><th style="text-align:right;">Action</th></tr></thead><tbody>
                                 <tr class="">
                                     <td>Alice</td>
                                     <td class="mono muted">22</td>
@@ -186,10 +376,10 @@
                                     <td class="text-right"><button class="btn-primary">Recommend</button></td>
                                 </tr>
                                 </tbody></table>
-            </div>
-            <div class="card">
-                <div class="section-title"><div style="color: var(--primary);">◎</div><h2 style="margin: 0; font-size: 18px;">AI Recommendations</h2><span class="badge chip-trend">Target: Emma</span></div>
-                <div class="reco-list">
+                    </div>
+                    <div class="card">
+                        <div class="section-title"><div style="color:var(--primary);">◎</div><h2 style="margin:0;font-size:18px;">AI Recommendations</h2><span class="badge chip-trend">Target: Emma</span></div>
+                        <div class="reco-list">
                                 <div class="reco-card">
                                     <div class="reco-head">
                                         <div>
@@ -226,48 +416,40 @@
                                     <div class="tags-row"><span>#personalized</span><span>#ml-generated</span></div>
                                 </div>
                                 </div>
-            </div>
-        </div>
-
-        <div style="height: 24px"></div>
-
-        <!-- Row 4 : Analysis logs + Confidence Trend + Similarity -->
-        <div class="grid grid-3">
-            <div class="card">
-                <div class="section-title"><div style="color: var(--muted);">⌘</div><h2 style="margin: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted);">Analysis Logs</h2></div>
-                <div class="mono muted" style="font-size: 13px; display: flex; flex-direction: column; gap: 10px;">
-                    <div>&gt; Run chi_square_test()</div>
-                    <div>x^2 = 12.43</div>
-                    <div>p-value = 0.014</div>
-                    <div style="color: var(--success); margin-top: 6px;">Significant relationship between activity logs and interests detected.</div>
-                    <div style="animation: pulse 1.2s infinite;">_</div>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="section-title"><div style="color: var(--muted);">↗</div><h2 style="margin: 0; font-size: 18px;">Confidence Trend</h2></div>
-                <div class="chart-wrapper">
-                    <img class="chart-img theme-chart" data-dark-src="scores-dark.png" data-light-src="scores-light.png" src="scores-dark.png" alt="Confidence trend" />
+
+            <!-- SECTION : Charts -->
+            <div class="section" id="section-charts">
+                <div class="grid grid-2">
+                    <div class="card">
+                        <div class="section-title"><div style="color:var(--muted);">◔</div><h2 style="margin:0;font-size:18px;">Interest Distribution</h2></div>
+                        <div class="chart-wrapper">
+                            <img class="chart-img theme-chart" data-dark-src="categories-dark.png" data-light-src="categories-light.png" src="categories-dark.png" alt="Interest distribution" />
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="section-title"><div style="color:var(--muted);">↗</div><h2 style="margin:0;font-size:18px;">Confidence Trend</h2></div>
+                        <div class="chart-wrapper">
+                            <img class="chart-img theme-chart" data-dark-src="scores-dark.png" data-light-src="scores-light.png" src="scores-dark.png" alt="Confidence trend" />
+                        </div>
+                    </div>
+                </div>
+                <div class="spacer"></div>
+                <div class="card">
+                    <div class="section-title"><div style="color:var(--muted);">▣</div><h2 style="margin:0;font-size:18px;">Category Treemap</h2></div>
+                    <div class="chart-wrapper">
+                        <img class="chart-img theme-chart" data-dark-src="tags-dark.png" data-light-src="tags-light.png" src="tags-dark.png" alt="Tag distribution" />
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="section-title"><div style="color: var(--muted);">◫</div><h2 style="margin: 0; font-size: 18px;">User Similarity Matrix</h2></div>
-                <div class="sim-grid"><div class="sim-cell" title="Alice x Alice: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div><div class="sim-cell" title="Alice x Bob: 0.20" style="background: rgba(124, 111, 247, 0.2);"></div><div class="sim-cell" title="Alice x Claire: 0.10" style="background: rgba(124, 111, 247, 0.1);"></div><div class="sim-cell" title="Alice x David: 0.80" style="background: rgba(124, 111, 247, 0.8);"></div><div class="sim-cell" title="Alice x Emma: 0.60" style="background: rgba(124, 111, 247, 0.6);"></div><div class="sim-cell" title="Bob x Alice: 0.20" style="background: rgba(124, 111, 247, 0.2);"></div><div class="sim-cell" title="Bob x Bob: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div><div class="sim-cell" title="Bob x Claire: 0.50" style="background: rgba(124, 111, 247, 0.5);"></div><div class="sim-cell" title="Bob x David: 0.10" style="background: rgba(124, 111, 247, 0.1);"></div><div class="sim-cell" title="Bob x Emma: 0.70" style="background: rgba(124, 111, 247, 0.7);"></div><div class="sim-cell" title="Claire x Alice: 0.10" style="background: rgba(124, 111, 247, 0.1);"></div><div class="sim-cell" title="Claire x Bob: 0.50" style="background: rgba(124, 111, 247, 0.5);"></div><div class="sim-cell" title="Claire x Claire: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div><div class="sim-cell" title="Claire x David: 0.00" style="background: rgba(124, 111, 247, 0.0);"></div><div class="sim-cell" title="Claire x Emma: 0.40" style="background: rgba(124, 111, 247, 0.4);"></div><div class="sim-cell" title="David x Alice: 0.80" style="background: rgba(124, 111, 247, 0.8);"></div><div class="sim-cell" title="David x Bob: 0.10" style="background: rgba(124, 111, 247, 0.1);"></div><div class="sim-cell" title="David x Claire: 0.00" style="background: rgba(124, 111, 247, 0.0);"></div><div class="sim-cell" title="David x David: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div><div class="sim-cell" title="David x Emma: 0.30" style="background: rgba(124, 111, 247, 0.3);"></div><div class="sim-cell" title="Emma x Alice: 0.60" style="background: rgba(124, 111, 247, 0.6);"></div><div class="sim-cell" title="Emma x Bob: 0.70" style="background: rgba(124, 111, 247, 0.7);"></div><div class="sim-cell" title="Emma x Claire: 0.40" style="background: rgba(124, 111, 247, 0.4);"></div><div class="sim-cell" title="Emma x David: 0.30" style="background: rgba(124, 111, 247, 0.3);"></div><div class="sim-cell" title="Emma x Emma: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div></div>
-            </div>
-        </div>
 
-        <div style="height: 24px"></div>
-
-        <!-- Row 5 : Tag distribution + Insights -->
-        <div class="grid grid-2">
-            <div class="card">
-                <div class="section-title"><div style="color: var(--muted);">▣</div><h2 style="margin: 0; font-size: 18px;">Category Treemap</h2></div>
-                <div class="chart-wrapper">
-                    <img class="chart-img theme-chart" data-dark-src="tags-dark.png" data-light-src="tags-light.png" src="tags-dark.png" alt="Tag distribution" />
-                </div>
-            </div>
-            <div class="card">
-                <div class="section-title"><div style="color: var(--muted);">✦</div><h2 style="margin: 0; font-size: 18px;">Generative AI Insights</h2></div>
-                <div class="insight-grid">
+            <!-- SECTION : AI Insights -->
+            <div class="section" id="section-insights">
+                <div class="card">
+                    <div class="section-title"><div style="color:var(--muted);">✦</div><h2 style="margin:0;font-size:18px;">Generative AI Insights</h2></div>
+                    <div class="insight-grid">
                         <div class="insight-card">
                             <div class="dot"></div>
                             <p>Fitness performs 32% above average in morning segments.</p>
@@ -288,25 +470,72 @@
                             <p>Books show highest long-term retention globally.</p>
                         </div>
                         </div>
+                </div>
             </div>
-        </div>
-    </div>
+
+            <!-- SECTION : Logs & Matrix -->
+            <div class="section" id="section-logs">
+                <div class="grid grid-2">
+                    <div class="card">
+                        <div class="section-title"><div style="color:var(--muted);">⌘</div><h2 style="margin:0;font-size:14px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Analysis Logs</h2></div>
+                        <div class="mono muted" style="font-size:13px;display:flex;flex-direction:column;gap:10px;">
+                            <div>&gt; Run chi_square_test()</div>
+                            <div>x^2 = 12.43</div>
+                            <div>p-value = 0.014</div>
+                            <div style="color:var(--success);margin-top:6px;">Significant relationship between activity logs and interests detected.</div>
+                            <div>_</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="section-title"><div style="color:var(--muted);">◫</div><h2 style="margin:0;font-size:18px;">User Similarity Matrix</h2></div>
+                        <div class="sim-grid"><div class="sim-cell" title="Alice x Alice: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div><div class="sim-cell" title="Alice x Bob: 0.20" style="background: rgba(124, 111, 247, 0.2);"></div><div class="sim-cell" title="Alice x Claire: 0.10" style="background: rgba(124, 111, 247, 0.1);"></div><div class="sim-cell" title="Alice x David: 0.80" style="background: rgba(124, 111, 247, 0.8);"></div><div class="sim-cell" title="Alice x Emma: 0.60" style="background: rgba(124, 111, 247, 0.6);"></div><div class="sim-cell" title="Bob x Alice: 0.20" style="background: rgba(124, 111, 247, 0.2);"></div><div class="sim-cell" title="Bob x Bob: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div><div class="sim-cell" title="Bob x Claire: 0.50" style="background: rgba(124, 111, 247, 0.5);"></div><div class="sim-cell" title="Bob x David: 0.10" style="background: rgba(124, 111, 247, 0.1);"></div><div class="sim-cell" title="Bob x Emma: 0.70" style="background: rgba(124, 111, 247, 0.7);"></div><div class="sim-cell" title="Claire x Alice: 0.10" style="background: rgba(124, 111, 247, 0.1);"></div><div class="sim-cell" title="Claire x Bob: 0.50" style="background: rgba(124, 111, 247, 0.5);"></div><div class="sim-cell" title="Claire x Claire: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div><div class="sim-cell" title="Claire x David: 0.00" style="background: rgba(124, 111, 247, 0.0);"></div><div class="sim-cell" title="Claire x Emma: 0.40" style="background: rgba(124, 111, 247, 0.4);"></div><div class="sim-cell" title="David x Alice: 0.80" style="background: rgba(124, 111, 247, 0.8);"></div><div class="sim-cell" title="David x Bob: 0.10" style="background: rgba(124, 111, 247, 0.1);"></div><div class="sim-cell" title="David x Claire: 0.00" style="background: rgba(124, 111, 247, 0.0);"></div><div class="sim-cell" title="David x David: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div><div class="sim-cell" title="David x Emma: 0.30" style="background: rgba(124, 111, 247, 0.3);"></div><div class="sim-cell" title="Emma x Alice: 0.60" style="background: rgba(124, 111, 247, 0.6);"></div><div class="sim-cell" title="Emma x Bob: 0.70" style="background: rgba(124, 111, 247, 0.7);"></div><div class="sim-cell" title="Emma x Claire: 0.40" style="background: rgba(124, 111, 247, 0.4);"></div><div class="sim-cell" title="Emma x David: 0.30" style="background: rgba(124, 111, 247, 0.3);"></div><div class="sim-cell" title="Emma x Emma: 1.00" style="background: rgba(124, 111, 247, 1.0);"></div></div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /content -->
+    </div><!-- /main -->
 
     <script>
-        const themeToggle = document.getElementById('themeToggle');
+        // ── Navigation ──
+        const navItems = document.querySelectorAll('.nav-item[data-section]');
+        const sections = document.querySelectorAll('.section');
+        const pageTitle = document.getElementById('pageTitle');
+
+        const titles = {
+            overview: 'Overview',
+            users: 'Users & Recommendations',
+            charts: 'Charts',
+            insights: 'AI Insights',
+            logs: 'Logs & Matrix',
+        };
+
+        navItems.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.section;
+                navItems.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                sections.forEach(s => s.classList.remove('active'));
+                document.getElementById('section-' + target).classList.add('active');
+                pageTitle.textContent = titles[target] || target;
+            });
+        });
+
+        // ── Theme toggle ──
         let dark = true;
-        themeToggle.addEventListener('click', () => {
+        document.getElementById('themeToggle').addEventListener('click', () => {
             dark = !dark;
-            document.documentElement.style.setProperty('--bg', dark ? '#0B1020' : '#F8FAFC');
-            document.documentElement.style.setProperty('--card', dark ? 'rgba(17, 24, 39, 0.94)' : '#FFFFFF');
-            document.documentElement.style.setProperty('--border', dark ? 'rgba(255,255,255,0.07)' : 'rgba(15,23,42,0.08)');
-            document.documentElement.style.setProperty('--text', dark ? '#F8FAFC' : '#0F172A');
-            document.documentElement.style.setProperty('--muted', dark ? '#94A3B8' : '#64748B');
-            themeToggle.textContent = dark ? '☾' : '☀';
-            document.body.style.background = dark
-                ? 'radial-gradient(circle at top right, rgba(124,111,247,0.16), transparent 32%), radial-gradient(circle at left bottom, rgba(6,182,212,0.12), transparent 26%), var(--bg)'
-                : 'radial-gradient(circle at top right, rgba(124,111,247,0.08), transparent 32%), radial-gradient(circle at left bottom, rgba(6,182,212,0.07), transparent 26%), var(--bg)';
-            document.querySelectorAll('.theme-chart').forEach((img) => {
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = dark ? '☾' : '☀';
+
+            document.documentElement.style.setProperty('--bg',      dark ? '#0B1020'                : '#F8FAFC');
+            document.documentElement.style.setProperty('--sidebar', dark ? '#0D1424'                : '#F1F5F9');
+            document.documentElement.style.setProperty('--card',    dark ? 'rgba(17,24,39,0.94)'   : '#FFFFFF');
+            document.documentElement.style.setProperty('--border',  dark ? 'rgba(255,255,255,0.07)': 'rgba(15,23,42,0.08)');
+            document.documentElement.style.setProperty('--text',    dark ? '#F8FAFC'               : '#0F172A');
+            document.documentElement.style.setProperty('--muted',   dark ? '#94A3B8'               : '#64748B');
+
+            document.querySelectorAll('.theme-chart').forEach(img => {
                 img.src = dark ? img.dataset.darkSrc : img.dataset.lightSrc;
             });
         });

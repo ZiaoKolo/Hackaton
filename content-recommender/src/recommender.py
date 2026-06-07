@@ -1,72 +1,226 @@
-from math import sqrt
-from models import TAGS
+from dataclasses import dataclass
+from scipy.spatial.distance import cosine
 
-class Recommender:
 
-    def __init__(self, catalog):
-        self.catalog = catalog
-        
-    def vectorize_user(self, user):
-        vector = []
 
-        for tag in TAGS:
-            if tag in user.interests:
-                vector.append(1)
-            else:
-                vector.append(0)
+TAGS = [
+    "technology",
+    "music",
+    "fitness",
+    "books",
+    "ai"
+]
 
-        return vector
 
-    def vectorize_item(self, item):
-        vector = []
+@dataclass
+class UserProfile:
+    id: int
+    name: str
+    interests: list[str]
 
-        for tag in TAGS:
-            if tag in item.tags:
-                vector.append(1)
-            else:
-                vector.append(0)
 
-        return vector
-   
+@dataclass
+class ContentItem:
+    title: str
+    tags: list[str]
 
-    def cosine_similarity(self, v1, v2):
 
-        # Produit scalaire
-        dot_product = 0
-        for i in range(len(v1)):
-            dot_product += v1[i] * v2[i]
 
-        # Norme du premier vecteur
-        sum_v1 = 0
-        for x in v1:
-            sum_v1 += x * x
-        norm_v1 = sqrt(sum_v1)
+users = [
+    UserProfile(
+        1,
+        "Alice",
+        ["technology", "music"]
+    ),
 
-        # Norme du deuxième vecteur
-        sum_v2 = 0
-        for x in v2:
-            sum_v2 += x * x
-        norm_v2 = sqrt(sum_v2)
+    UserProfile(
+        2,
+        "Bob",
+        ["fitness", "books"]
+    ),
 
-        # Éviter la division par zéro
-        if norm_v1 == 0 or norm_v2 == 0:
-            return 0
+    UserProfile(
+        3,
+        "Claire",
+        ["fitness"]
+    ),
 
-        return dot_product / (norm_v1 * norm_v2)
-    
-    def generate(self, user):
+    UserProfile(
+        4,
+        "David",
+        ["music"]
+    ),
 
-        user_vector = self.vectorize_user(user)
+    UserProfile(
+        5,
+        "Emma",
+        ["technology", "books", "fitness"]
+    )
+]
 
-        recommendations = []
 
-        for item in self.catalog:
 
-            item_vector = self.vectorize_item(item)
+catalog = [
 
-            score = self.cosine_similarity(user_vector, item_vector)
+    ContentItem(
+        "Deep Learning with Python",
+        ["technology", "ai"]
+    ),
 
-            if score > 0:
-                recommendations.append(item)
+    ContentItem(
+        "Rock Essentials",
+        ["music"]
+    ),
 
-        return recommendations
+    ContentItem(
+        "Morning Yoga Flow",
+        ["fitness"]
+    ),
+
+    ContentItem(
+        "Atomic Habits",
+        ["books"]
+    ),
+
+    ContentItem(
+        "AI Revolution Blog",
+        ["technology", "ai"]
+    )
+]
+
+
+
+
+def vectorize_interests(interests):
+
+    vector = []
+
+    for tag in TAGS:
+
+        if tag in interests:
+            vector.append(1)
+        else:
+            vector.append(0)
+
+    return vector
+
+
+
+def similarity(user1, user2):
+
+    v1 = vectorize_interests(user1.interests)
+    v2 = vectorize_interests(user2.interests)
+
+    if sum(v1) == 0 or sum(v2) == 0:
+        return 0
+
+    return 1 - cosine(v1, v2)
+
+
+
+def find_similar_users(target_user, users):
+
+    results = []
+
+    for user in users:
+
+        if user.id == target_user.id:
+            continue
+
+        score = similarity(
+            target_user,
+            user
+        )
+
+        results.append(
+            (user, score)
+        )
+
+    results.sort(
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    return results
+
+
+
+def recommend_content(
+        target_user,
+        users,
+        catalog,
+        top_n=3
+):
+
+    similar_users = find_similar_users(
+        target_user,
+        users
+    )
+
+    recommendations = []
+
+    for item in catalog:
+
+        score = 0
+
+        for similar_user, similarity_score in similar_users:
+
+            common_tags = set(
+                similar_user.interests
+            ).intersection(
+                item.tags
+            )
+
+            score += (
+                len(common_tags)
+                * similarity_score
+            )
+
+        recommendations.append(
+            (item, score)
+        )
+
+    recommendations.sort(
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    return recommendations[:top_n]
+
+
+
+
+target_user = users[0]  # Alice
+
+print("\nUtilisateur :", target_user.name)
+
+print("\nUtilisateurs similaires :")
+
+similar = find_similar_users(
+    target_user,
+    users
+)
+
+for user, score in similar:
+
+    print(
+        user.name,
+        "->",
+        round(score, 2)
+    )
+
+print("\nRecommandations :")
+
+recommendations = recommend_content(
+    target_user,
+    users,
+    catalog
+)
+
+for item, score in recommendations:
+
+    print(
+        item.title,
+        "- score:",
+        round(score, 2)
+    )
