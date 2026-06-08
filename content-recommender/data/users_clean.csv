@@ -1,1 +1,7 @@
-user_id,name,age,preferences
+Name,Age,Interests,Activity Logs
+John Doe,28,"['technology', 'music']","['watched AI talk', 'listened to rock music', 'bought headphones']"
+Alice Smith,34,"['fitness', 'health', 'technology']","['started workout', 'watched tutorial', 'tracked steps']"
+Charlie Lee,22,"['music', 'sports']","['listened to podcast', 'played a game', 'listened to rock music']"
+Diana Koffi,40,"['artificial intelligence', 'books', 'technology']","['watched webinar', 'bought laptop', 'completed a course']"
+Eva Ouattara,29,"['fitness', 'music', 'health']","['completed workout', 'listened_to_music', 'bought_book']"
+

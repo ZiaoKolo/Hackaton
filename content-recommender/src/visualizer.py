@@ -8,39 +8,17 @@ import webbrowser
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from src.data_loader import (
+        load_content_catalog,
+        users_raw_to_profiles,
+        users_clean_to_profiles,
+)
+from src.recommender import recommend_content
 
-DEMO_USERS = [
-        {"id": 1, "name": "Alice", "age": 22, "interests": ["Technology", "Music"], "score": 3.0},
-        {"id": 2, "name": "Bob", "age": 35, "interests": ["Fitness", "Books"], "score": 4.0},
-        {"id": 3, "name": "Claire", "age": 58, "interests": ["Fitness"], "score": 1.0},
-        {"id": 4, "name": "David", "age": 19, "interests": ["Music"], "score": 2.0},
-        {"id": 5, "name": "Emma", "age": 45, "interests": ["Technology", "Books", "Fitness"], "score": 6.0},
-]
 
-DEMO_RECOMMENDATIONS = {
-        1: [
-                {"id": 101, "title": "AI Music Generator", "category": "Technology", "relevance": 94},
-                {"id": 102, "title": "Synthwave Beats", "category": "Music", "relevance": 88},
-        ],
-        2: [
-                {"id": 201, "title": "Marathon Guide", "category": "Fitness", "relevance": 92},
-                {"id": 202, "title": "Nutrition Science", "category": "Books", "relevance": 85},
-        ],
-        3: [{"id": 301, "title": "Yoga for Seniors", "category": "Fitness", "relevance": 97}],
-        4: [{"id": 401, "title": "Guitar Tabs Pro", "category": "Music", "relevance": 89}],
-        5: [
-                {"id": 501, "title": "Tech Startup Memoir", "category": "Books", "relevance": 95},
-                {"id": 502, "title": "Wearable Tech Review", "category": "Technology", "relevance": 91},
-                {"id": 503, "title": "HIIT Workouts", "category": "Fitness", "relevance": 84},
-        ],
-}
+# NOTE: l’interface HTML (style/structure) reste identique.
+# Mais les contenus sont calculés à partir des vrais datasets.
 
-DEMO_INSIGHTS = [
-        "Fitness performs 32% above average in morning segments.",
-        "Technology and Music users exhibit a 0.8 correlation overlap.",
-        "Emma has recommendation confidence above 90% for Tech.",
-        "Books show highest long-term retention globally.",
-]
 
 HEATMAP_VALUES = [
         12, 45, 80, 20, 10, 5, 90, 100,
@@ -56,6 +34,7 @@ SIMILARITY = [
         [0.8, 0.1, 0.0, 1.0, 0.3],
         [0.6, 0.7, 0.4, 0.3, 1.0],
 ]
+
 
 
 class Visualizer:
@@ -236,6 +215,10 @@ class Visualizer:
                 return self._finish_figure(f"scores-{theme}.png", theme)
 
         def render_dashboard(self, selected_user_id: int = 5) -> Path:
+                """Regenerate dashboard.html + chart PNGs.
+
+                Note: this function must be fast and deterministic.
+                """
                 self._clean_outputs()
 
                 categories_dark_path = self.plot_categories("dark").name
@@ -254,6 +237,7 @@ class Visualizer:
                         scores_dark_path,
                         scores_light_path,
                 )
+
                 dashboard_path = self.output_dir / "dashboard.html"
                 dashboard_path.write_text(html, encoding="utf-8")
                 return dashboard_path
@@ -273,68 +257,114 @@ class Visualizer:
                 scores_dark_path: str,
                 scores_light_path: str,
         ) -> str:
+                # Charge données réelles
+                catalog = load_content_catalog()
+
+                # on charge un petit sous-ensemble pour que le dashboard reste rapide
+                # (ajuste si nécessaire)
+                profiles = users_clean_to_profiles(limit=20)
+                if not profiles:
+                        profiles = users_raw_to_profiles(limit=20)
+
+                if not profiles:
+                        raise RuntimeError('No user profiles loaded from datasets.')
+
+                # selected_user_id est un index (fallback), pas forcément un vrai user_id
+                selected_index = int(selected_user_id)
+                selected_index = max(0, min(selected_index, len(profiles) - 1))
+                selected_profile = profiles[selected_index]
+
+
+                # top utilisateurs (affichage)
+                # scoring simple: somme des tags overlap sur les items
+                scored_users = []
+                for u in profiles:
+                        recs = recommend_content(u, catalog, top_n=3)
+                        total = sum(getattr(it, "score", 0.0) for it in recs)
+                        scored_users.append((u, total))
+                scored_users.sort(key=lambda x: x[1], reverse=True)
+                top_users = scored_users[:5]
+
                 users_markup = []
-                for user in DEMO_USERS:
-                        active = user["id"] == selected_user_id
+                for idx, (u, total_score) in enumerate(top_users):
+                        active = idx == selected_index % len(top_users) or str(u.user_id) == str(selected_profile.user_id)
                         interests = "".join(
-                                f'<span class="chip chip-{interest.lower()}">{interest}</span>'
-                                for interest in user["interests"]
+                                f'<span class="chip chip-{i.lower()}">{i}</span>'
+                                for i in (u.interests or [])[:5]
                         )
                         users_markup.append(
                                 f"""
                                 <tr class="{'active-row' if active else ''}">
-                                    <td>{user['name']}</td>
-                                    <td class="mono muted">{user['age']}</td>
+                                    <td>{u.name or u.user_id}</td>
+                                    <td class="mono muted">{u.age if u.age is not None else '-'}</td>
                                     <td><div class="chips">{interests}</div></td>
-                                    <td class="mono muted">{user['score']:.1f}</td>
+                                    <td class="mono muted">{total_score:.1f}</td>
                                     <td class="text-right"><button class="{'btn-primary' if active else 'btn-secondary'}">Recommend</button></td>
                                 </tr>
                                 """
                         )
 
+                # recommandations pour l’utilisateur sélectionné
+                recommendations = recommend_content(selected_profile, catalog, top_n=5)
+
+                # normaliser score -> pourcentage 0..100 (affichage UI)
+                raw_scores = [getattr(it, "score", 0.0) for it in recommendations]
+                mx = max(raw_scores) if raw_scores else 1.0
+                mx = mx if mx != 0 else 1.0
+
                 recommendation_markup = []
-                for item in DEMO_RECOMMENDATIONS.get(selected_user_id, []):
+                for it, raw_s in zip(recommendations, raw_scores):
+                        relevance = int(round((raw_s / mx) * 100))
                         recommendation_markup.append(
                                 f"""
                                 <div class="reco-card">
                                     <div class="reco-head">
                                         <div>
-                                            <h3>{item['title']}</h3>
-                                            <span class="chip chip-{item['category'].lower()}">{item['category']}</span>
+                                            <h3>{it.title}</h3>
+                                            <span class="chip chip-{it.category.lower()}">{it.category}</span>
                                         </div>
-                                        <span class="mono success">{item['relevance']}% Match</span>
+                                        <span class="mono success">{relevance}% Match</span>
                                     </div>
-                                    <div class="progress"><div style="width: {item['relevance']}%;"></div></div>
+                                    <div class="progress"><div style="width: {relevance}%;"></div></div>
                                     <div class="tags-row"><span>#personalized</span><span>#ml-generated</span></div>
                                 </div>
                                 """
                         )
 
-                heatmap_markup = []
-                for value in HEATMAP_VALUES:
-                        heatmap_markup.append(
-                                f'<div class="heat-cell" title="Activity: {value}%" style="background: rgba(6, 182, 212, {max(0.1, value / 100):.2f});"></div>'
-                        )
+                heatmap_markup = [
+                        f'<div class="heat-cell" title="Activity: {value}%" style="background: rgba(6, 182, 212, {max(0.1, value / 100):.2f});"></div>'
+                        for value in HEATMAP_VALUES
+                ]
 
+                # matrice de similarité (placeholder structure)
                 similarity_markup = []
-                names = ["Alice", "Bob", "Claire", "David", "Emma"]
+                names = [(u.name or u.user_id) for (u, _) in scored_users[:5]]
+                while len(names) < 5:
+                        names.append('User')
+
                 for row_index, row in enumerate(SIMILARITY):
                         for col_index, value in enumerate(row):
                                 similarity_markup.append(
                                         f'<div class="sim-cell" title="{names[row_index]} x {names[col_index]}: {value:.2f}" style="background: rgba(124, 111, 247, {value});"></div>'
                                 )
 
+                # insights simples à partir de l’utilisateur sélectionné
+                top_interest = (selected_profile.interests or [""])[0]
                 insights_markup = "".join(
                         f"""
                         <div class="insight-card">
                             <div class="dot"></div>
-                            <p>{insight}</p>
+                            <p>{text}</p>
                         </div>
                         """
-                        for insight in DEMO_INSIGHTS
+                        for text in [
+                                f"Top intérêt pour {selected_profile.name or selected_profile.user_id}: {top_interest}",
+                                "Recommandations basées sur overlap intérêts + boost activité.",
+                        ]
                 )
 
-                target_name = next(user["name"] for user in DEMO_USERS if user["id"] == selected_user_id)
+                target_name = selected_profile.name or selected_profile.user_id
+
 
                 return f"""<!doctype html>
 <html lang="en">

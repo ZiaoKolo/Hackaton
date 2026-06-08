@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "user_id": "u1",
+    "name": "John Doe",
+    "age": 28,
+    "preferences": ["technology", "music"],
+    "activity_log": ["watched AI talk", "listened to rock music", "bought headphones"]
+  },
+  {
+    "user_id": "u2",
+    "name": "Alice Smith",
+    "age": 34,
+    "preferences": ["fitness", "health", "technology"],
+    "activity_log": ["started workout", "watched tutorial", "tracked steps"]
+  },
+  {
+    "user_id": "u3",
+    "name": "Charlie Lee",
+    "age": 22,
+    "preferences": ["music", "sports"],
+    "activity_log": ["listened to podcast", "played a game", "listened to rock music"]
+  },
+  {
+    "user_id": "u4",
+    "name": "Diana Koffi",
+    "age": 40,
+    "preferences": ["artificial intelligence", "books", "technology"],
+    "activity_log": ["watched webinar", "bought laptop", "completed a course"]
+  },
+  {
+    "user_id": "u5",
+    "name": "Eva Ouattara",
+    "age": 29,
+    "preferences": ["fitness", "music", "health"],
+    "activity_log": ["completed workout", "listened_to_music", "bought_book"]
+  }
+]
+

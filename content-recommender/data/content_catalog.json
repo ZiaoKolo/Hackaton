@@ -1,1 +1,39 @@
-[]
+[
+  {
+    "content_id": "c1",
+    "title": "AI Productivity Playbook",
+    "category": "Book",
+    "tags": ["technology", "ai", "education"]
+  },
+  {
+    "content_id": "c2",
+    "title": "Rock & Focus Playlist",
+    "category": "Playlist",
+    "tags": ["music", "rock", "fitness"]
+  },
+  {
+    "content_id": "c3",
+    "title": "Daily HIIT Routine",
+    "category": "Fitness",
+    "tags": ["fitness", "health", "sports"]
+  },
+  {
+    "content_id": "c4",
+    "title": "Tech News Digest",
+    "category": "Book",
+    "tags": ["technology", "business", "ai"]
+  },
+  {
+    "content_id": "c5",
+    "title": "Workout Beats Mix",
+    "category": "Playlist",
+    "tags": ["music", "fitness", "health"]
+  },
+  {
+    "content_id": "c6",
+    "title": "Smart Training Tips",
+    "category": "Fitness",
+    "tags": ["fitness", "technology", "health"]
+  }
+]
+
