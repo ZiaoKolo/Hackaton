@@ -13,11 +13,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-#df = pd.read_csv("/data/users_clean.csv")
-#df.head()
-
-df = pd.read_csv("/content/users_clean.csv")
-df # a supprimer
+df = pd.read_csv("/data/users_clean.csv")
+df.head()
 
 clean_interests_str = df['Interests'].astype(str).str.strip("[]").str.replace("'", "")
 list_of_interests = clean_interests_str.str.split(", ")
@@ -79,7 +76,7 @@ sns.barplot(x=[activity for activity, _ in top_10_activities], y=[count for _, c
 plt.xlabel('Activity Log')
 plt.ylabel('Count')
 plt.title('Top 10 Activity Log')
-plt.xticks(rotation=45)
+plt.xticks(rotation=80)
 plt.show()
 
 top_int_name, top_int_count = top_10_interests[0]
@@ -116,3 +113,121 @@ if p_value < 0.05:
     print(f"{top_int_name} est vraiment populaire")
 else:
     print(f"Résultat : Pas de différence significative (p > 0,05) - Les centres d'intérêt sont répartis de manière uniforme (Peut-être dû au hasard)")
+
+print(f"\n ##### {top_int_name} preference by Age \n")
+
+
+df[f'{top_int_name}'] = df['Interests'].apply(lambda x: top_int_name in x)
+
+
+interest_by_age = df.groupby(age_groups, observed=True)[f'{top_int_name}'].agg(['count', 'sum'])
+interest_by_age['percentage'] = (interest_by_age['sum'] / interest_by_age['count']) * 100
+
+print(interest_by_age)
+
+contingency_table = pd.crosstab(age_groups, df[f'{top_int_name}'])
+chi2, p, dof, expected = stats.chi2_contingency(contingency_table)
+
+print(f"\nChi-square test (Age vs {top_int_name} interest):")
+print(f"Chi carré : {chi2:.2f}, p-value: {p:.4f}")
+
+if p < 0.05:
+    print(f"Relation significative entre l'âge et l'intérêt pour {top_int_name}")
+else:
+    print(f"Pas de relation significative entre l'âge et l'intérêt pour {top_int_name}")
+
+# 4c. Check correlation between AI/Tech interests and related activities
+
+# Define tech-related interests
+df['has_tech_interest'] = df['Interests'].apply(
+    lambda x: any(tech in x for tech in ['technology', 'artificial_intelligence'])
+)
+
+# Define tech-related activities
+tech_activities_keywords = ['ai', 'tech', 'headphones', 'webinar', 'searched_ai', 'attended_ai', 'watched_ai']
+df['has_tech_activity'] = df['Activity Logs'].apply(
+    lambda x: any(any(keyword in activity.lower() for keyword in tech_activities_keywords) for activity in x)
+)
+
+# Create contingency table
+tech_contingency = pd.crosstab(df['has_tech_interest'], df['has_tech_activity'])
+print("\nContingency Table (Tech Interest vs Tech Activity):")
+print(tech_contingency)
+
+chi2, p, dof, expected = stats.chi2_contingency(tech_contingency)
+print(f"\nChi-square test results:")
+print(f"Chi-square statistic: {chi2:.2f}")
+print(f"P-value: {p:.4f}")
+
+if p < 0.05:
+    print(f"Significant correlation: Users with AI/Tech interests engage in more tech-related activities")
+    # Calculate correlation strength using Cramér's V
+    n = tech_contingency.sum().sum()
+    cramers_v = np.sqrt(chi2 / (n * (min(tech_contingency.shape)-1)))
+    print(f"Cramér's V: {cramers_v:.3f} (moderate to strong effect)")
+else:
+    print(f"No significant correlation found")
+
+# 4d. Probability distribution simulation
+print("\n4d. PROBABILITY DISTRIBUTION SIMULATION")
+print("-"*40)
+
+# Calculate counts using dictionary
+interest_counts = {}
+for item in all_interests_list:
+    interest_counts[item] = interest_counts.get(item, 0) + 1
+
+fitness_prob = interest_counts.get('fitness', 0) / len(df)
+n_users = len(df)
+n_simulations = 10000
+simulated_fitness_counts = np.random.binomial(n_users, fitness_prob, n_simulations)
+
+print(f"Actual fitness interest rate: {fitness_prob:.1%}")
+print(f"Simulated distribution (10,000 samples of {n_users} users):")
+print(f"  Mean simulated count: {simulated_fitness_counts.mean():.1f}")
+print(f"  95% confidence interval: {np.percentile(simulated_fitness_counts, 2.5):.0f} - {np.percentile(simulated_fitness_counts, 97.5):.0f} users")
+
+# 4e. Age distribution comparison
+print("\n4e. AGE DISTRIBUTION ANALYSIS")
+print("-"*40)
+df['has_fitness'] = df['Interests'].apply(lambda x: 'fitness' in str(x))
+fitness_users_age = df[df['has_fitness']]['Age']
+non_fitness_users_age = df[~df['has_fitness']]['Age']
+ks_stat, ks_p = stats.ks_2samp(fitness_users_age, non_fitness_users_age)
+print(f"KS Statistic: {ks_stat:.3f}, P-value: {ks_p:.4f}")
+
+# 4f. Activity type analysis - Improved keywords
+print("\n4f. ACTIVITY PATTERN ANALYSIS")
+print("-"*40)
+
+activity_categories = {
+    'commerce': ['bought', 'purchase', 'cart', 'checkout', 'booked', 'hotel'],
+    'social': ['followed', 'shared', 'liked', 'commented', 'message', 'post'],
+    'content': ['watched', 'viewed', 'listened', 'read', 'video', 'movie', 'podcast'],
+    'tech_ai': ['ai', 'tech', 'app', 'installed', 'searched_ai', 'webinar'],
+    'fitness': ['workout', 'steps', 'course']
+}
+
+def categorize_activity(activity_list_str):
+    # Handle the fact that Activity Logs are strings currently
+    act_str = str(activity_list_str).lower()
+    categories = set()
+    for cat, keywords in activity_categories.items():
+        if any(k in act_str for k in keywords):
+            categories.add(cat)
+    return list(categories)
+
+df['activity_categories'] = df['Activity Logs'].apply(categorize_activity)
+all_cats = [cat for sublist in df['activity_categories'] for cat in sublist]
+
+cat_counts = {}
+for c in all_cats: cat_counts[c] = cat_counts.get(c, 0) + 1
+
+print("Activity Category Distribution:")
+for cat, count in sorted(cat_counts.items(), key=lambda x: x[1], reverse=True):
+    print(f"  {cat:15} {count:3} users ({(count/len(df))*100:.1f}%)")
+
+print("DATA VISUALIZATION")
+print(f"\nTop 10 Interests: {dict(top_10_interests[:10])}")
+print(f"\nTop 10 Activities: {dict(top_10_activities[:10])}")
+print(f"\nAge group distribution: {dict(age_groups.value_counts())}")
