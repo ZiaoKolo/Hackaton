@@ -1,38 +1,723 @@
 [
   {
-    "user_id": "u1",
-    "name": "John Doe",
-    "age": 28,
-    "preferences": ["technology", "music"],
-    "activity_log": ["watched AI talk", "listened to rock music", "bought headphones"]
-  },
-  {
-    "user_id": "u2",
-    "name": "Alice Smith",
-    "age": 34,
-    "preferences": ["fitness", "health", "technology"],
-    "activity_log": ["started workout", "watched tutorial", "tracked steps"]
-  },
-  {
-    "user_id": "u3",
-    "name": "Charlie Lee",
-    "age": 22,
-    "preferences": ["music", "sports"],
-    "activity_log": ["listened to podcast", "played a game", "listened to rock music"]
-  },
-  {
-    "user_id": "u4",
-    "name": "Diana Koffi",
+    "name": "Utilisateur 1",
     "age": 40,
-    "preferences": ["artificial intelligence", "books", "technology"],
-    "activity_log": ["watched webinar", "bought laptop", "completed a course"]
+    "is_premium": false,
+    "user_id": "u1",
+    "interests": [
+      "ai"
+    ],
+    "activity_logs": [
+      "completed workout",
+      "bought headphones"
+    ]
   },
   {
+    "name": "Utilisateur 2",
+    "age": 33,
+    "is_premium": false,
+    "user_id": "u2",
+    "interests": [
+      "music"
+    ],
+    "activity_log": [
+      "completed workout",
+      "watched ai talk"
+    ]
+  },
+  {
+    "name": "Utilisateur 3",
+    "age": 42,
+    "is_premium": true,
+    "user_id": "u3",
+    "preferences": "technology, fitness",
+    "activity_logs": [
+      "saved playlist",
+      "read tech article",
+      "listened to rock music",
+      "tracked steps"
+    ]
+  },
+  {
+    "name": "Utilisateur 4",
+    "age": 53,
+    "is_premium": true,
+    "user_id": "u4",
+    "interests": [
+      "ai",
+      "technology",
+      "sports"
+    ],
+    "activity_log": [
+      "listened to rock music",
+      "tracked steps",
+      "watched ai talk",
+      "read tech article",
+      "bought headphones"
+    ]
+  },
+  {
+    "name": "Utilisateur 5",
+    "age": 32,
+    "is_premium": true,
     "user_id": "u5",
-    "name": "Eva Ouattara",
+    "interests": [
+      "books"
+    ],
+    "activity_log": [
+      "read tech article",
+      "listened to rock music"
+    ]
+  },
+  {
+    "name": "Utilisateur 6",
+    "age": 32,
+    "is_premium": true,
+    "user_id": "u6",
+    "interests": [
+      "business"
+    ],
+    "activity_logs": [
+      "completed workout",
+      "read tech article",
+      "saved playlist"
+    ]
+  },
+  {
+    "name": "Utilisateur 7",
+    "age": 53,
+    "is_premium": true,
+    "user_id": "u7",
+    "interests": [
+      "sports"
+    ],
+    "activity_logs": [
+      "read tech article",
+      "completed workout",
+      "saved playlist",
+      "bought headphones"
+    ]
+  },
+  {
+    "name": "Utilisateur 8",
+    "age": 44,
+    "is_premium": true,
+    "user_id": "u8",
+    "preferences": "music, health",
+    "activity_logs": [
+      "saved playlist",
+      "completed workout",
+      "watched webinar",
+      "bought book",
+      "tracked steps"
+    ]
+  },
+  {
+    "name": "Utilisateur 9",
     "age": 29,
-    "preferences": ["fitness", "music", "health"],
-    "activity_log": ["completed workout", "listened_to_music", "bought_book"]
+    "is_premium": false,
+    "user_id": "u9",
+    "interests": [
+      "ai",
+      "movies",
+      "science"
+    ],
+    "activity_logs": [
+      "tracked steps",
+      "saved playlist",
+      "listened to rock music",
+      "watched webinar",
+      "read tech article"
+    ]
+  },
+  {
+    "name": "Utilisateur 10",
+    "age": 41,
+    "is_premium": true,
+    "user_id": "u10",
+    "preferences": "science, movies, music",
+    "activity_log": [
+      "tracked steps",
+      "bought book",
+      "read tech article",
+      "bought headphones"
+    ]
+  },
+  {
+    "name": "Utilisateur 11",
+    "age": 29,
+    "is_premium": false,
+    "user_id": "u11",
+    "interests": [
+      "ai",
+      "business",
+      "music"
+    ],
+    "activity_log": [
+      "tracked steps",
+      "bought headphones",
+      "completed workout"
+    ]
+  },
+  {
+    "name": "Utilisateur 12",
+    "age": 29,
+    "is_premium": true,
+    "user_id": "u12",
+    "interests": [
+      "music",
+      "ai",
+      "art"
+    ],
+    "activity_log": [
+      "completed workout",
+      "bought headphones",
+      "bought book",
+      "listened to rock music",
+      "read tech article"
+    ]
+  },
+  {
+    "name": "Utilisateur 13",
+    "age": 37,
+    "is_premium": true,
+    "user_id": "u13",
+    "preferences": "business",
+    "activity_log": [
+      "completed workout",
+      "watched ai talk",
+      "listened to rock music"
+    ]
+  },
+  {
+    "name": "Utilisateur 14",
+    "age": "inconnu",
+    "is_premium": true,
+    "user_id": "u14",
+    "interests": [
+      "fitness",
+      "books",
+      "sports"
+    ],
+    "activity_log": [
+      "bought headphones",
+      "read tech article",
+      "bought book",
+      "tracked steps",
+      "completed workout"
+    ]
+  },
+  {
+    "name": "Utilisateur 15",
+    "age": 15,
+    "is_premium": false,
+    "user_id": "u15",
+    "interests": [
+      "books",
+      "business"
+    ],
+    "activity_log": [
+      "watched webinar",
+      "bought book",
+      "watched ai talk",
+      "listened to rock music"
+    ]
+  },
+  {
+    "name": "Utilisateur 16",
+    "age": 28,
+    "is_premium": false,
+    "user_id": " u16 ",
+    "interests": [
+      "books"
+    ],
+    "activity_log": [
+      "completed workout"
+    ]
+  },
+  {
+    "name": "Utilisateur 17",
+    "age": 22,
+    "is_premium": false,
+    "user_id": "u17",
+    "preferences": "health, art",
+    "activity_logs": [
+      "bought book",
+      "completed workout"
+    ]
+  },
+  {
+    "name": "Utilisateur 18",
+    "age": 38,
+    "is_premium": false,
+    "user_id": "u18",
+    "interests": [
+      "science",
+      "sports"
+    ],
+    "activity_logs": [
+      "listened to rock music"
+    ]
+  },
+  {
+    "name": "Utilisateur 19",
+    "age": 24,
+    "is_premium": false,
+    "user_id": "u19",
+    "interests": [
+      "sports",
+      "fitness",
+      "science"
+    ],
+    "activity_log": [
+      "read tech article",
+      "bought book"
+    ]
+  },
+  {
+    "name": "Utilisateur 20",
+    "age": 18,
+    "is_premium": false,
+    "user_id": "u20",
+    "interests": [
+      "books"
+    ],
+    "activity_log": [
+      "watched ai talk",
+      "listened to rock music",
+      "tracked steps",
+      "bought book",
+      "saved playlist"
+    ]
+  },
+  {
+    "name": "Utilisateur 21",
+    "age": 52,
+    "is_premium": false,
+    "user_id": "u21",
+    "interests": [
+      "science"
+    ],
+    "activity_log": [
+      "bought book",
+      "read tech article",
+      "completed workout"
+    ]
+  },
+  {
+    "name": "Utilisateur 22",
+    "age": 32,
+    "is_premium": false,
+    "user_id": " u22 ",
+    "interests": [
+      "ai"
+    ],
+    "activity_log": [
+      "watched ai talk",
+      "watched webinar"
+    ]
+  },
+  {
+    "name": "Utilisateur 23",
+    "age": 35,
+    "is_premium": false,
+    "user_id": "u23",
+    "preferences": "technology",
+    "activity_log": [
+      "listened to rock music",
+      "bought headphones",
+      "watched ai talk",
+      "read tech article",
+      "tracked steps"
+    ]
+  },
+  {
+    "name": "Utilisateur 24",
+    "age": 17,
+    "is_premium": false,
+    "user_id": "u24",
+    "interests": [
+      "technology",
+      "movies",
+      "music"
+    ],
+    "activity_logs": [
+      "watched webinar",
+      "saved playlist",
+      "bought headphones",
+      "listened to rock music"
+    ]
+  },
+  {
+    "name": "Utilisateur 25",
+    "age": 28,
+    "is_premium": false,
+    "user_id": "u25",
+    "preferences": "business, music",
+    "activity_log": [
+      "bought book"
+    ]
+  },
+  {
+    "name": "Utilisateur 26",
+    "age": 36,
+    "is_premium": false,
+    "user_id": "u26",
+    "interests": [
+      "business"
+    ],
+    "activity_log": [
+      "completed workout"
+    ]
+  },
+  {
+    "name": "Utilisateur 27",
+    "age": 21,
+    "is_premium": false,
+    "user_id": "u27",
+    "interests": [
+      "art",
+      "technology",
+      "books"
+    ],
+    "activity_log": [
+      "listened to rock music",
+      "bought headphones",
+      "bought book"
+    ]
+  },
+  {
+    "name": "Utilisateur 28",
+    "age": 39,
+    "is_premium": false,
+    "user_id": "u28",
+    "preferences": "business, health, ai",
+    "activity_log": [
+      "bought book",
+      "read tech article",
+      "tracked steps",
+      "watched ai talk",
+      "saved playlist"
+    ]
+  },
+  {
+    "name": "Utilisateur 29",
+    "age": -5,
+    "is_premium": false,
+    "user_id": "u29",
+    "interests": [
+      "fitness",
+      "sports"
+    ],
+    "activity_logs": [
+      "tracked steps",
+      "watched ai talk",
+      "bought book",
+      "watched webinar",
+      "listened to rock music"
+    ]
+  },
+  {
+    "name": "Utilisateur 30",
+    "age": -5,
+    "is_premium": false,
+    "user_id": "u30",
+    "interests": [
+      "business",
+      "technology"
+    ],
+    "activity_log": [
+      "completed workout",
+      "watched webinar",
+      "saved playlist"
+    ]
+  },
+  {
+    "name": "Utilisateur 31",
+    "age": 27,
+    "is_premium": false,
+    "user_id": "u31",
+    "interests": [
+      "health"
+    ],
+    "activity_log": [
+      "bought headphones",
+      "tracked steps"
+    ]
+  },
+  {
+    "name": "Utilisateur 32",
+    "age": 57,
+    "is_premium": true,
+    "user_id": "u32",
+    "interests": [
+      "health",
+      "ai",
+      "fitness"
+    ],
+    "activity_log": [
+      "tracked steps"
+    ]
+  },
+  {
+    "name": "Utilisateur 33",
+    "age": 34,
+    "is_premium": false,
+    "user_id": "u33",
+    "preferences": "health, books",
+    "activity_log": [
+      "completed workout"
+    ]
+  },
+  {
+    "name": "Utilisateur 34",
+    "age": 22,
+    "is_premium": true,
+    "user_id": "u34",
+    "interests": [
+      "science",
+      "art",
+      "business"
+    ],
+    "activity_log": [
+      "listened to rock music"
+    ]
+  },
+  {
+    "name": "Utilisateur 35",
+    "age": null,
+    "is_premium": false,
+    "user_id": " u35 ",
+    "interests": [
+      "science",
+      "business",
+      "movies"
+    ],
+    "activity_log": [
+      "watched webinar",
+      "listened to rock music",
+      "completed workout",
+      "read tech article"
+    ]
+  },
+  {
+    "name": "Utilisateur 36",
+    "age": 20,
+    "is_premium": false,
+    "user_id": "u36",
+    "interests": [
+      "books",
+      "health",
+      "business"
+    ],
+    "activity_log": [
+      "listened to rock music",
+      "saved playlist",
+      "read tech article",
+      "bought headphones"
+    ]
+  },
+  {
+    "name": "Utilisateur 37",
+    "age": 37,
+    "is_premium": false,
+    "user_id": "u37",
+    "interests": [
+      "science",
+      "ai"
+    ],
+    "activity_log": [
+      "bought headphones",
+      "completed workout",
+      "bought book",
+      "saved playlist",
+      "tracked steps"
+    ]
+  },
+  {
+    "name": "Utilisateur 38",
+    "age": 15,
+    "is_premium": false,
+    "user_id": "u38",
+    "interests": [
+      "ai"
+    ],
+    "activity_log": [
+      "completed workout",
+      "tracked steps",
+      "bought book"
+    ]
+  },
+  {
+    "name": "Utilisateur 39",
+    "age": 19,
+    "is_premium": true,
+    "user_id": "u39",
+    "interests": [
+      "fitness",
+      "music"
+    ],
+    "activity_log": [
+      "watched webinar",
+      "saved playlist",
+      "watched ai talk"
+    ]
+  },
+  {
+    "name": "Utilisateur 40",
+    "age": 37,
+    "is_premium": false,
+    "user_id": "u40",
+    "interests": [
+      "technology"
+    ],
+    "activity_log": [
+      "bought book",
+      "listened to rock music"
+    ]
+  },
+  {
+    "name": "Utilisateur 41",
+    "age": 43,
+    "is_premium": false,
+    "user_id": "u41",
+    "interests": [
+      "health",
+      "fitness"
+    ],
+    "activity_log": [
+      "listened to rock music"
+    ]
+  },
+  {
+    "name": "Utilisateur 42",
+    "age": 37,
+    "is_premium": true,
+    "user_id": "u42",
+    "interests": [
+      "health",
+      "music",
+      "sports"
+    ],
+    "activity_log": [
+      "bought book",
+      "saved playlist"
+    ]
+  },
+  {
+    "name": "Utilisateur 43",
+    "age": 33,
+    "is_premium": false,
+    "user_id": "u43",
+    "interests": [
+      "sports",
+      "fitness",
+      "books"
+    ],
+    "activity_log": [
+      "read tech article",
+      "completed workout",
+      "tracked steps",
+      "saved playlist"
+    ]
+  },
+  {
+    "name": "Utilisateur 44",
+    "age": 31,
+    "is_premium": false,
+    "user_id": "u44",
+    "preferences": "ai, health, books",
+    "activity_log": [
+      "saved playlist",
+      "listened to rock music",
+      "bought book"
+    ]
+  },
+  {
+    "name": "Utilisateur 45",
+    "age": 17,
+    "is_premium": false,
+    "user_id": "u45",
+    "interests": [
+      "art",
+      "sports"
+    ],
+    "activity_logs": [
+      "watched ai talk",
+      "completed workout",
+      "tracked steps",
+      "bought book"
+    ]
+  },
+  {
+    "name": "Utilisateur 46",
+    "age": 26,
+    "is_premium": true,
+    "user_id": "u46",
+    "interests": [
+      "science",
+      "sports",
+      "technology"
+    ],
+    "activity_log": [
+      "read tech article",
+      "tracked steps",
+      "bought book"
+    ]
+  },
+  {
+    "name": "Utilisateur 47",
+    "age": 29,
+    "is_premium": false,
+    "user_id": "u47",
+    "interests": [
+      "sports"
+    ],
+    "activity_log": [
+      "read tech article",
+      "tracked steps"
+    ]
+  },
+  {
+    "name": "Utilisateur 48",
+    "age": 47,
+    "is_premium": false,
+    "user_id": "u48",
+    "interests": [
+      "fitness",
+      "movies"
+    ],
+    "activity_logs": [
+      "watched ai talk",
+      "tracked steps",
+      "read tech article",
+      "bought book",
+      "watched webinar"
+    ]
+  },
+  {
+    "name": "Utilisateur 49",
+    "age": 39,
+    "is_premium": false,
+    "user_id": "u49",
+    "interests": [
+      "health",
+      "sports"
+    ],
+    "activity_logs": [
+      "saved playlist",
+      "tracked steps",
+      "bought headphones"
+    ]
+  },
+  {
+    "name": "Utilisateur 50",
+    "age": null,
+    "is_premium": false,
+    "user_id": "u50",
+    "preferences": "technology, business, health",
+    "activity_logs": [
+      "watched ai talk"
+    ]
   }
 ]
-
