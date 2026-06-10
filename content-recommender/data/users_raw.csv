@@ -1,51 +1,51 @@
 user_id,Name,Age,Interests,Activity Logs
-u1,Utilisateur 1,40,['business'],"['listened to rock', 'watched ai talk']"
-u2,Utilisateur 2,inconnu,['business'],"['watched ai talk', 'bought headphones', 'listened to rock']"
-u3,Utilisateur 3,,['music'],['watched ai talk']
-u4,Utilisateur 4,53,"['business', 'science', 'ai']","['listened to rock', 'completed workout']"
-u5,Utilisateur 5,32,['science'],['completed workout']
-u6,Utilisateur 6,32,['music'],"['watched ai talk', 'completed workout']"
-u7,Utilisateur 7,53,"['science', 'fitness']","['bought headphones', 'watched ai talk', 'listened to rock']"
-u8,Utilisateur 8,44,"['technology', 'ai']","['bought headphones', 'completed workout']"
-u9,Utilisateur 9,-5,['technology'],"['listened to rock', 'completed workout', 'watched ai talk']"
-u10,Utilisateur 10,41,['health'],"['completed workout', 'bought headphones']"
-u11,Utilisateur 11,29,['fitness'],"['listened to rock', 'bought headphones']"
-u12,Utilisateur 12,29,"['business', 'technology', 'ai']","['listened to rock', 'bought headphones', 'watched ai talk']"
-u13,Utilisateur 13,-5,"['fitness', 'business']","['listened to rock', 'bought headphones', 'completed workout']"
-u14,Utilisateur 14,12,['music'],['bought headphones']
-u15,Utilisateur 15,14,['music'],"['bought headphones', 'watched ai talk', 'listened to rock']"
-u16,Utilisateur 16,28,"['health', 'music', 'fitness']",['listened to rock']
-u17,Utilisateur 17,22,"['fitness', 'business', 'ai']","['completed workout', 'listened to rock']"
-u18,Utilisateur 18,38,['ai'],"['watched ai talk', 'completed workout']"
-u19,Utilisateur 19,24,['business'],['completed workout']
-u20,Utilisateur 20,18,"['health', 'ai']","['bought headphones', 'completed workout']"
-u21,Utilisateur 21,52,['business'],"['watched ai talk', 'bought headphones', 'listened to rock']"
-u22,Utilisateur 22,32,"['technology', 'fitness']","['listened to rock', 'completed workout']"
-u23,Utilisateur 23,,"['business', 'fitness', 'ai']",['watched ai talk']
-u24,Utilisateur 24,17,"['science', 'business']","['listened to rock', 'watched ai talk', 'completed workout']"
-u25,Utilisateur 25,28,"['science', 'ai', 'technology']","['bought headphones', 'listened to rock', 'watched ai talk']"
-u26,Utilisateur 26,inconnu,"['science', 'fitness']",['watched ai talk']
-u27,Utilisateur 27,21,"['technology', 'science', 'health']",['listened to rock']
-u28,Utilisateur 28,inconnu,"['ai', 'music']","['completed workout', 'watched ai talk']"
-u29,Utilisateur 29,27,"['business', 'music', 'fitness']","['bought headphones', 'listened to rock']"
-u30,Utilisateur 30,31,"['technology', 'music']",['watched ai talk']
-u31,Utilisateur 31,27,"['ai', 'music', 'science']",['watched ai talk']
-u32,Utilisateur 32,,"['technology', 'music', 'science']",['bought headphones']
-u33,Utilisateur 33,,['fitness'],"['completed workout', 'watched ai talk', 'bought headphones']"
-u34,Utilisateur 34,22,"['ai', 'health', 'music']","['completed workout', 'watched ai talk']"
-u35,Utilisateur 35,,"['health', 'fitness', 'science']","['completed workout', 'bought headphones']"
-u36,Utilisateur 36,,"['business', 'technology', 'science']","['bought headphones', 'watched ai talk']"
-u37,Utilisateur 37,37,['ai'],"['listened to rock', 'completed workout']"
-u38,Utilisateur 38,-5,"['music', 'technology']","['watched ai talk', 'completed workout']"
-u39,Utilisateur 39,19,"['science', 'technology', 'business']",['listened to rock']
-u40,Utilisateur 40,37,"['music', 'health']",['listened to rock']
-u41,Utilisateur 41,43,"['fitness', 'health']","['completed workout', 'bought headphones']"
-u42,Utilisateur 42,37,"['business', 'science', 'health']",['listened to rock']
-u43,Utilisateur 43,33,['ai'],"['watched ai talk', 'bought headphones', 'listened to rock']"
-u44,Utilisateur 44,,"['health', 'ai', 'business']",['watched ai talk']
-u45,Utilisateur 45,17,['science'],['watched ai talk']
-u46,Utilisateur 46,26,"['science', 'music', 'health']",['listened to rock']
-u47,Utilisateur 47,29,['ai'],['completed workout']
-u48,Utilisateur 48,47,"['ai', 'fitness', 'business']",['bought headphones']
-u49,Utilisateur 49,39,"['music', 'business']","['bought headphones', 'listened to rock', 'completed workout']"
-u50,Utilisateur 50,13,['technology'],"['watched ai talk', 'completed workout']"
+u1,Utilisateur 1,-5,"['ai', 'technology', 'business']",['listened to rock']
+u2,Utilisateur 2,33,"['science', 'technology']",['completed workout']
+u3,Utilisateur 3,42,['business'],"['listened to rock', 'watched ai talk', 'completed workout']"
+u4,Utilisateur 4,53,['technology'],['watched ai talk']
+u5,Utilisateur 5,-5,"['ai', 'technology']","['listened to rock', 'bought headphones', 'completed workout']"
+u6,Utilisateur 6,32,"['health', 'science', 'fitness']",['completed workout']
+u7,Utilisateur 7,53,"['technology', 'business', 'ai']",['watched ai talk']
+u8,Utilisateur 8,44,['fitness'],"['watched ai talk', 'bought headphones', 'bought headphones']"
+u9,Utilisateur 9,29,"['science', 'health']","['completed workout', 'watched ai talk']"
+u10,Utilisateur 10,41,"['music', 'science', 'health']","['bought headphones', 'listened to rock', 'bought headphones']"
+u11,Utilisateur 11,29,"['business', 'fitness', 'technology']","['listened to rock', 'watched ai talk', 'watched ai talk']"
+u12,Utilisateur 12,,"['health', 'ai', 'business']",['bought headphones']
+u13,Utilisateur 13,37,"['business', 'fitness', 'music']","['listened to rock', 'listened to rock']"
+u14,Utilisateur 14,-5,"['science', 'fitness', 'music']",['listened to rock']
+u15,Utilisateur 15,14,"['science', 'technology', 'ai']","['watched ai talk', 'bought headphones']"
+u16,Utilisateur 16,28,"['technology', 'music']","['completed workout', 'bought headphones', 'bought headphones']"
+u17,Utilisateur 17,inconnu,"['music', 'technology', 'fitness']","['watched ai talk', 'listened to rock', 'bought headphones']"
+u18,Utilisateur 18,38,"['ai', 'business']","['listened to rock', 'bought headphones']"
+u19,Utilisateur 19,24,"['music', 'technology']","['listened to rock', 'listened to rock']"
+u20,Utilisateur 20,18,"['health', 'fitness', 'business']",['bought headphones']
+u21,Utilisateur 21,52,"['health', 'fitness']","['completed workout', 'watched ai talk']"
+u22,Utilisateur 22,-5,"['technology', 'fitness', 'music']","['listened to rock', 'bought headphones', 'watched ai talk']"
+u23,Utilisateur 23,35,['science'],"['watched ai talk', 'completed workout', 'listened to rock']"
+u24,Utilisateur 24,17,"['fitness', 'ai', 'business']","['listened to rock', 'bought headphones']"
+u25,Utilisateur 25,28,"['business', 'fitness', 'music']","['watched ai talk', 'completed workout']"
+u26,Utilisateur 26,36,['business'],['listened to rock']
+u27,Utilisateur 27,21,['health'],['listened to rock']
+u28,Utilisateur 28,39,"['business', 'music', 'health']","['watched ai talk', 'listened to rock']"
+u29,Utilisateur 29,27,['technology'],"['bought headphones', 'listened to rock']"
+u30,Utilisateur 30,,['ai'],"['completed workout', 'completed workout']"
+u31,Utilisateur 31,27,['technology'],"['bought headphones', 'watched ai talk', 'bought headphones']"
+u32,Utilisateur 32,57,"['ai', 'science']","['listened to rock', 'completed workout', 'completed workout']"
+u33,Utilisateur 33,34,"['science', 'technology', 'ai']","['completed workout', 'listened to rock']"
+u34,Utilisateur 34,22,"['science', 'fitness']","['completed workout', 'watched ai talk']"
+u35,Utilisateur 35,44,['health'],['listened to rock']
+u36,Utilisateur 36,,"['fitness', 'music', 'business']",['listened to rock']
+u37,Utilisateur 37,37,"['science', 'technology', 'music']","['bought headphones', 'watched ai talk']"
+u38,Utilisateur 38,11,"['health', 'music']","['listened to rock', 'completed workout', 'watched ai talk']"
+u39,Utilisateur 39,19,['ai'],"['listened to rock', 'listened to rock', 'watched ai talk']"
+u40,Utilisateur 40,37,['technology'],['bought headphones']
+u41,Utilisateur 41,43,"['health', 'ai', 'business']","['watched ai talk', 'bought headphones', 'watched ai talk']"
+u42,Utilisateur 42,37,"['health', 'science', 'music']",['completed workout']
+u43,Utilisateur 43,33,"['science', 'music', 'ai']","['bought headphones', 'listened to rock', 'bought headphones']"
+u44,Utilisateur 44,31,"['ai', 'technology', 'music']","['completed workout', 'listened to rock']"
+u45,Utilisateur 45,inconnu,['ai'],"['completed workout', 'listened to rock', 'watched ai talk']"
+u46,Utilisateur 46,-5,"['ai', 'technology', 'science']","['watched ai talk', 'watched ai talk', 'completed workout']"
+u47,Utilisateur 47,29,"['ai', 'technology', 'health']","['completed workout', 'bought headphones', 'watched ai talk']"
+u48,Utilisateur 48,47,"['music', 'health']","['bought headphones', 'watched ai talk']"
+u49,Utilisateur 49,39,"['health', 'music']",['bought headphones']
+u50,Utilisateur 50,13,"['health', 'fitness', 'music']",['watched ai talk']
